@@ -3,10 +3,7 @@
 You can describe your results in any language that is convenient for you, not just English.
 
 ## Description
-
-Average age of machineries: 17.91 years
-Average age of oldest machineries: 24.00 years
-
+Description my cabinet.
 
 ## How to
 
