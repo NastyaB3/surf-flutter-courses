@@ -133,8 +133,7 @@ void main() {
   final List<DateTime> releaseDate =
       machineries.map((e) => e.releaseDate).toList();
   final Set<DateTime> uniqueReleaseDate = Set.from(releaseDate);
-  List<DateTime> sortedUniqueDates = uniqueReleaseDate.toList();
-  sortedUniqueDates.sort();
+  List<DateTime> sortedUniqueDates = uniqueReleaseDate.toList()..sort();
   int totalAge = 0;
   for (var date in sortedUniqueDates) {
     totalAge += currentYear - date.year;
