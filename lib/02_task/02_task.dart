@@ -52,15 +52,15 @@ class Cabinet {
 }
 
 class Laptop {
-  String screen;
-  String keyboard;
-  String touchPad;
-  String _motherboard;
-  String powerSupply;
-  List<int> _ramCards;
-  String _cpu;
-  String? cdDrive;
-  String wiFiModule;
+  final String screen;
+  final String keyboard;
+  final  String touchPad;
+  final String _motherboard;
+  final String powerSupply;
+  final List<int> _ramCards;
+  final String _cpu;
+  final String? cdDrive;
+  final String wiFiModule;
 
   Laptop(
     this._cpu,
