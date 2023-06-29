@@ -1,4 +1,4 @@
-//  описание класса товара
+///  Описание класса товара.
 class Product {
   final int id;
   final String category;
@@ -15,7 +15,7 @@ class Product {
   });
 }
 
-abstract class Filter<T> {
+abstract interface class Filter<T> {
   bool apply(T product);
 }
 
@@ -32,20 +32,32 @@ List<Product> applyFilter(
   return filteredProduct;
 }
 
-//реализация интерфейса Filter, которая фильтрует по категории
+/// Реализация интерфейса Filter, которая фильтрует по категории.
 class FilterByCategory implements Filter<Product> {
+  final String category;
+
+  FilterByCategory({
+    required this.category,
+  });
+
   @override
-  bool apply(Product product) => product.category.contains('хлеб');
+  bool apply(Product product) => product.category.contains(category);
 }
 
-//реализация интерфейса Filter, которая фильтрует по цене
+/// Реализация интерфейса Filter, которая фильтрует по цене.
 class FilterByPrice implements Filter<Product> {
+  final int price;
+
+  FilterByPrice({required this.price});
   @override
-  bool apply(Product product) => product.price < 200;
+  bool apply(Product product) => product.price < price;
 }
 
-//реализация интерфейса Filter, которая фильтрует по количеству товара в наличии
+/// Реализация интерфейса Filter, которая фильтрует по количеству товара в наличии.
 class FilterByCount implements Filter<Product> {
+  final int count;
+
+  FilterByCount({required this.count});
   @override
-  bool apply(Product product) => product.count < 15;
+  bool apply(Product product) => product.count < count;
 }
