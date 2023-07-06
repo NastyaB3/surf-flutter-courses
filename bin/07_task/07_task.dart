@@ -1,4 +1,9 @@
 import 'package:surf_dart_courses_template/07_task/07_task.dart';
+import 'package:collection/collection.dart';
+
+typedef GroupedByCategoryMap = Map<String, GroupedBySubcategory>;
+
+typedef GroupedBySubcategory = Map<String, List<String>>;
 
 void main() {
   final List<RawProductItem> rawProductItem = [
@@ -137,33 +142,21 @@ void main() {
     ),
   ];
 
-  List filteredList = rawProductItem
+  final List<RawProductItem> filteredList = rawProductItem
       .where((element) =>
           element.qty > 0 && element.expirationDate.isAfter(DateTime.now()))
       .toList();
-  final Map productItemMap = {};
-
-  filteredList.forEach((element) {
-    final name = element.name;
-    final categoryName = element.categoryName;
-    final subcategoryName = element.subcategoryName;
-
-    if (productItemMap.containsKey(categoryName)) {
-      final categoryMap = productItemMap[categoryName];
-      if (categoryMap.containsKey(subcategoryName)) {
-        categoryMap[subcategoryName].add(name);
-      } else {
-        categoryMap[subcategoryName] = [name];
-      }
-    } else {
-      productItemMap[categoryName] = {
-        subcategoryName: [name]
-      };
-    }
-  });
-
-  print(
-    productItemMap,
-  );
-
+  final GroupedByCategoryMap groupedItemMap =
+      filteredList.groupListsBy((element) => element.categoryName).map(
+            (key, value) => MapEntry(
+              key,
+              value.groupListsBy((element) => element.subcategoryName).map(
+                    (key, value) => MapEntry(
+                      key,
+                      value.map((e) => e.name).toList(),
+                    ),
+                  ),
+            ),
+          );
+  print(groupedItemMap);
 }
