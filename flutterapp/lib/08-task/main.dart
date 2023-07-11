@@ -42,12 +42,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _decrementCounter() {
-    if (_counter > 0) {
-      setState(() {
-        _counter--;
-      });
-    }
     setState(() {
+      if (_counter > 0) {
+        _counter--;
+      }
       _negativeClick++;
     });
   }
