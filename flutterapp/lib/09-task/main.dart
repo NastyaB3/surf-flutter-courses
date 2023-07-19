@@ -40,6 +40,7 @@ class _AnimationContainerPageState extends State<AnimationContainerPage>
 
   @override
   void initState() {
+    super.initState();
     controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -48,7 +49,6 @@ class _AnimationContainerPageState extends State<AnimationContainerPage>
       parent: controller,
       curve: Curves.elasticOut,
     );
-    super.initState();
   }
 
   @override
@@ -86,7 +86,6 @@ class _AnimationContainerPageState extends State<AnimationContainerPage>
         title: Text(widget.title),
       ),
       body: Stack(
-        // alignment: Alignment.center,
         children: [
           Positioned(
             left: _deltaX,
