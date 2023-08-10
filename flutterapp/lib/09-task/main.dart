@@ -77,6 +77,16 @@ class _AnimationContainerPageState extends State<AnimationContainerPage>
       selected = !selected;
     });
   }
+  void _onLongPress () {
+    setState(() {
+      selected = !selected;
+    });
+    if (selected) {
+      _startRotationAnimation();
+    } else {
+      _stopRotationAnimation();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,16 +113,7 @@ class _AnimationContainerPageState extends State<AnimationContainerPage>
           Positioned.fill(
             child: GestureDetector(
               onTap: _onTap,
-              onLongPress: () {
-                setState(() {
-                  selected = !selected;
-                });
-                if (selected) {
-                  _startRotationAnimation();
-                } else {
-                  _stopRotationAnimation();
-                }
-              },
+              onLongPress: _onLongPress,
               onVerticalDragUpdate: _handleDragUpdate,
               onHorizontalDragUpdate: _handleDragUpdate,
             ),
