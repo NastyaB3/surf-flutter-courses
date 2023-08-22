@@ -37,19 +37,19 @@ class CardPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                Strings.emoji1,
+                Images.emoji1,
                 fit: BoxFit.cover,
                 height: 50,
                 width: 50,
               ),
               Image.asset(
-                Strings.emoji2,
+                Images.emoji2,
                 fit: BoxFit.cover,
                 height: 50,
                 width: 50,
               ),
               Image.asset(
-                Strings.emoji3,
+                Images.emoji3,
                 fit: BoxFit.cover,
                 height: 50,
                 width: 50,
@@ -62,7 +62,7 @@ class CardPage extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(18.0),
             child: Image.asset(
-              Strings.myImage,
+              Images.myImage,
               fit: BoxFit.cover,
               height: 200,
               width: 200,
