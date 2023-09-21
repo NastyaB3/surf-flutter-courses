@@ -1,0 +1,245 @@
+import 'package:flutter/material.dart';
+import 'package:flutterapp/11-task/filter_list_screen.dart' as filterList;
+import 'package:flutterapp/11-task/filter_list_screen.dart';
+import 'package:flutterapp/11-task/item_product.dart';
+import 'package:flutterapp/11-task/model/product_list.dart';
+import 'package:flutterapp/11-task/model/products_model.dart';
+import 'package:flutterapp/11-task/sort_product.dart';
+
+class ListOfProductScreen extends StatefulWidget {
+  const ListOfProductScreen({
+    super.key,
+  });
+
+  @override
+  State<ListOfProductScreen> createState() => _ListOfProductScreenState();
+}
+
+class _ListOfProductScreenState extends State<ListOfProductScreen> {
+  SortType sortType = SortType.withoutSort;
+
+  @override
+  Widget build(BuildContext context) {
+    int total = 0;
+    int totalSalePercent = 0;
+    int totalSaleRub = 0;
+    int totalPriceWithSale = 0;
+
+    for (final product in dataForStudents) {
+      total += product.price;
+      totalSalePercent += product.sale.toInt();
+      if (product.sale != 0) {
+        totalSaleRub = (product.price * product.sale ~/ 100);
+      }
+      totalPriceWithSale = total - totalSaleRub;
+    }
+    return Scaffold(
+      appBar: AppBar(
+        title: Column(
+          children: [
+            Text(
+              'Чек № 56',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+            ),
+            Text('24.02.23 в 12:23',
+                style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                    )),
+          ],
+        ),
+      ),
+      bottomNavigationBar: _bottomBar(
+        selectedItemColor: Theme.of(context).colorScheme.onPrimary,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'Список покупок',
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                ),
+              ),
+              InkWell(
+                onTap: () async {
+                  final res = await showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (BuildContext context) {
+                        return filterList.FilterListScreen(
+                          products: dataForStudents,
+                          sortType: sortType,
+                        );
+                      });
+                  if (res != null) {
+                    setState(() {
+                      sortType = res;
+                    });
+                  }
+                },
+                child: Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                  ),
+                  child: Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      Center(
+                        child: Icon(
+                          Icons.sort,
+                          color: Theme.of(context).colorScheme.primaryContainer,
+                        ),
+                      ),
+                      if (sortType != SortType.withoutSort)
+                        Container(
+                          height: 8,
+                          width: 8,
+                          margin: const EdgeInsets.only(right: 5, bottom: 5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          (dataForStudents.isEmpty == true)
+              ? const Text('Здесь пока ничего нет')
+              : Expanded(
+                  child: ListView.builder(
+                    itemBuilder: (BuildContext context, int index) {
+                      final item = getSortType(sortType)[index];
+                      return Column(
+                        children: [
+                          ItemProduct(
+                            item: item,
+                            isFirstItemOfCategory: (index == 0 ||
+                                    item.category !=
+                                        getSortType(sortType)[index - 1]
+                                            .category) &&
+                                (sortType == SortType.typeToA ||
+                                    sortType == SortType.typeFromA),
+                          ),
+                        ],
+                      );
+                    },
+                    itemCount: dataForStudents.length,
+                  ),
+                ),
+          const Divider(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('В вашей покупке'),
+              const SizedBox(
+                height: 8,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '${dataForStudents.length.toString()} товаров',
+                    style: Theme.of(context).textTheme.displayMedium,
+                  ),
+                  Text(
+                    '${total.toString()} руб',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Скидка ${totalSalePercent.toString()}%',
+                    style: Theme.of(context).textTheme.displayMedium,
+                  ),
+                  Text(
+                    '-${totalSaleRub.toString()} руб',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Итого',
+                  ),
+                  Text(
+                    '${totalPriceWithSale.toString()} руб',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ]),
+      ),
+    );
+  }
+}
+
+List<ProductEntity> getSortType(SortType? value) {
+  switch (value) {
+    case SortType.highToLowPrice:
+      return highToLowPrice(dataForStudents);
+    case SortType.lowToHighPrice:
+      return lowToHighPrice(dataForStudents);
+    case SortType.alphabetFromA:
+      return alphabetFromA(dataForStudents);
+    case SortType.alphabetToA:
+      return alphabetToA(dataForStudents);
+    case SortType.typeFromA:
+      return typeFromA(dataForStudents);
+    case SortType.typeToA:
+      return typeToA(dataForStudents);
+    case SortType.withoutSort:
+      return dataForStudents;
+    default:
+      return dataForStudents;
+  }
+}
+
+Widget _bottomBar({
+  required Color selectedItemColor,
+}) {
+  return BottomNavigationBar(
+    currentIndex: 3,
+    type: BottomNavigationBarType.fixed,
+    selectedItemColor: selectedItemColor,
+    items: const [
+      BottomNavigationBarItem(
+        icon: Icon(Icons.list_alt),
+        label: 'Каталог',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.search),
+        label: 'Поиск',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.shopping_bag_outlined),
+        label: 'Корзина',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.person),
+        label: 'Личное',
+      ),
+    ],
+  );
+}

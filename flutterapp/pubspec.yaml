@@ -65,4 +65,8 @@ flutter:
          - asset: assets/fonts/Handjet-Bold.ttf
          - asset: assets/fonts/Handjet-ExtraLight.ttf
          - asset: assets/fonts/Handjet-Thin.ttf
+     - family: Sora
+       fonts:
+         - asset: assets/fonts/sora/Sora-Regular.ttf
+
 
