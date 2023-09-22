@@ -15,12 +15,12 @@ enum SortType {
 class FilterListScreen extends StatefulWidget {
   final List<ProductEntity> products;
 
-  final SortType sortType;
+  final SortType initialSortType;
 
   const FilterListScreen({
     super.key,
     required this.products,
-    required this.sortType,
+    required this.initialSortType,
   });
 
   @override
@@ -28,7 +28,13 @@ class FilterListScreen extends StatefulWidget {
 }
 
 class _FilterListScreenState extends State<FilterListScreen> {
-  late SortType sortType = widget.sortType;
+  late SortType sortType;
+
+  @override
+  void initState() {
+    super.initState();
+    sortType = widget.initialSortType;
+  }
 
   void _onSortTypeChanged(SortType? value) {
     setState(() {
@@ -80,16 +86,14 @@ class _FilterListScreenState extends State<FilterListScreen> {
               groupValue: sortType,
               onChanged: _onSortTypeChanged,
             ),
-            ListTile(
+            RadioListTile(
               title: Text(
                 'По имени от Я до А',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
-              leading: Radio<SortType>(
-                value: SortType.alphabetToA,
-                groupValue: sortType,
-                onChanged: _onSortTypeChanged,
-              ),
+              value: SortType.alphabetToA,
+              groupValue: sortType,
+              onChanged: _onSortTypeChanged,
             ),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -102,26 +106,22 @@ class _FilterListScreenState extends State<FilterListScreen> {
                 style: Theme.of(context).textTheme.displayMedium,
               ),
             ),
-            ListTile(
-              title: Text(
-                'По возрастанию',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              leading: Radio<SortType>(
-                  value: SortType.lowToHighPrice,
-                  groupValue: sortType,
-                  onChanged: _onSortTypeChanged),
-            ),
-            ListTile(
-              title: Text(
-                'По убыванию',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              leading: Radio<SortType>(
-                  value: SortType.highToLowPrice,
-                  groupValue: sortType,
-                  onChanged: _onSortTypeChanged),
-            ),
+            RadioListTile(
+                title: Text(
+                  'По возрастанию',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                value: SortType.lowToHighPrice,
+                groupValue: sortType,
+                onChanged: _onSortTypeChanged),
+            RadioListTile(
+                title: Text(
+                  'По убыванию',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                value: SortType.highToLowPrice,
+                groupValue: sortType,
+                onChanged: _onSortTypeChanged),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Divider(),
@@ -133,26 +133,22 @@ class _FilterListScreenState extends State<FilterListScreen> {
                 style: Theme.of(context).textTheme.displayMedium,
               ),
             ),
-            ListTile(
-              title: Text(
-                'По типу  от А до Я',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              leading: Radio<SortType>(
-                  value: SortType.typeFromA,
-                  groupValue: sortType,
-                  onChanged: _onSortTypeChanged),
-            ),
-            ListTile(
-              title: Text(
-                'По типу  от Я до А',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              leading: Radio<SortType>(
-                  value: SortType.typeToA,
-                  groupValue: sortType,
-                  onChanged: _onSortTypeChanged),
-            ),
+            RadioListTile(
+                title: Text(
+                  'По типу  от А до Я',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                value: SortType.typeFromA,
+                groupValue: sortType,
+                onChanged: _onSortTypeChanged),
+            RadioListTile(
+                title: Text(
+                  'По типу  от Я до А',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                value: SortType.typeToA,
+                groupValue: sortType,
+                onChanged: _onSortTypeChanged),
             const SizedBox(
               height: 40,
             ),

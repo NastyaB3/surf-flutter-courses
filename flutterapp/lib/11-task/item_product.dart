@@ -20,10 +20,12 @@ class ItemProduct extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (isFirstItemOfCategory)
-            Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Text(' ${item.category.name}')),
+          if (isFirstItemOfCategory) ...[
+            Text(' ${item.category.name}'),
+            const SizedBox(
+              height: 16,
+            )
+          ],
           Row(
             children: [
               SizedBox(

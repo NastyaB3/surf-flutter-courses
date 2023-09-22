@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/11-task/count_sale.dart';
 import 'package:flutterapp/11-task/filter_list_screen.dart' as filterList;
 import 'package:flutterapp/11-task/filter_list_screen.dart';
 import 'package:flutterapp/11-task/item_product.dart';
@@ -20,19 +21,6 @@ class _ListOfProductScreenState extends State<ListOfProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    int total = 0;
-    int totalSalePercent = 0;
-    int totalSaleRub = 0;
-    int totalPriceWithSale = 0;
-
-    for (final product in dataForStudents) {
-      total += product.price;
-      totalSalePercent += product.sale.toInt();
-      if (product.sale != 0) {
-        totalSaleRub = (product.price * product.sale ~/ 100);
-      }
-      totalPriceWithSale = total - totalSaleRub;
-    }
     return Scaffold(
       appBar: AppBar(
         title: Column(
@@ -50,7 +38,7 @@ class _ListOfProductScreenState extends State<ListOfProductScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: _bottomBar(
+      bottomNavigationBar: BottomBar(
         selectedItemColor: Theme.of(context).colorScheme.onPrimary,
       ),
       body: Padding(
@@ -74,7 +62,7 @@ class _ListOfProductScreenState extends State<ListOfProductScreen> {
                       builder: (BuildContext context) {
                         return filterList.FilterListScreen(
                           products: dataForStudents,
-                          sortType: sortType,
+                          initialSortType: sortType,
                         );
                       });
                   if (res != null) {
@@ -157,7 +145,7 @@ class _ListOfProductScreenState extends State<ListOfProductScreen> {
                     style: Theme.of(context).textTheme.displayMedium,
                   ),
                   Text(
-                    '${total.toString()} руб',
+                    '${countSale(dataForStudents: dataForStudents).total.toString()} руб',
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
@@ -166,11 +154,11 @@ class _ListOfProductScreenState extends State<ListOfProductScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Скидка ${totalSalePercent.toString()}%',
+                    'Скидка ${countSale(dataForStudents: dataForStudents).totalSalePercent.toString()}%',
                     style: Theme.of(context).textTheme.displayMedium,
                   ),
                   Text(
-                    '-${totalSaleRub.toString()} руб',
+                    '-${countSale(dataForStudents: dataForStudents).totalSaleRub.toString()} руб',
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
@@ -182,7 +170,7 @@ class _ListOfProductScreenState extends State<ListOfProductScreen> {
                     'Итого',
                   ),
                   Text(
-                    '${totalPriceWithSale.toString()} руб',
+                    '${countSale(dataForStudents: dataForStudents).totalPriceWithSale.toString()} руб',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
@@ -210,36 +198,43 @@ List<ProductEntity> getSortType(SortType? value) {
     case SortType.typeToA:
       return typeToA(dataForStudents);
     case SortType.withoutSort:
-      return dataForStudents;
     default:
       return dataForStudents;
   }
 }
 
-Widget _bottomBar({
-  required Color selectedItemColor,
-}) {
-  return BottomNavigationBar(
-    currentIndex: 3,
-    type: BottomNavigationBarType.fixed,
-    selectedItemColor: selectedItemColor,
-    items: const [
-      BottomNavigationBarItem(
-        icon: Icon(Icons.list_alt),
-        label: 'Каталог',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.search),
-        label: 'Поиск',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.shopping_bag_outlined),
-        label: 'Корзина',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.person),
-        label: 'Личное',
-      ),
-    ],
-  );
+class BottomBar extends StatelessWidget {
+  final Color selectedItemColor;
+
+  const BottomBar({
+    super.key,
+    required this.selectedItemColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      currentIndex: 3,
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: selectedItemColor,
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.list_alt),
+          label: 'Каталог',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.search),
+          label: 'Поиск',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.shopping_bag_outlined),
+          label: 'Корзина',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person),
+          label: 'Личное',
+        ),
+      ],
+    );
+  }
 }
