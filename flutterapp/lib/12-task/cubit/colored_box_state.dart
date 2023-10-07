@@ -1,0 +1,20 @@
+part of 'colored_box_cubit.dart';
+
+@immutable
+abstract class ColoredBoxState {}
+
+class ColoredBoxInitial extends ColoredBoxState {}
+
+class ColoredBoxLoading extends ColoredBoxState {}
+
+class ColoredBoxSuccess extends ColoredBoxState {
+  final ColorsList colorData;
+
+  ColoredBoxSuccess(this.colorData);
+}
+
+class ColoredBoxError extends ColoredBoxState {
+  final String message;
+
+  ColoredBoxError(this.message);
+}
