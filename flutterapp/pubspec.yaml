@@ -68,5 +68,8 @@ flutter:
      - family: Sora
        fonts:
          - asset: assets/fonts/sora/Sora-Regular.ttf
+     - family: Sf Pro Display
+       fonts:
+         - asset: assets/fonts/sf_pro_display/Sf-Pro-Display-Regural.OTF
 
 
