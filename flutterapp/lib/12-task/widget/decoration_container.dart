@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 
 class DecorationContainer extends StatelessWidget {
-  final Widget? child;
+  final String? rgbColor;
+  final String colorName;
+  final String? colorHex;
+  final VoidCallback? onTap;
 
-  const DecorationContainer({super.key, this.child});
+  const DecorationContainer({
+    super.key,
+    this.rgbColor,
+    required this.colorName,
+    this.colorHex,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +29,27 @@ class DecorationContainer extends StatelessWidget {
           ),
         ],
       ),
-      child: child,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            colorName,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          const SizedBox(width: 16),
+          InkWell(
+            onTap: onTap,
+            child: Text(
+              rgbColor != null
+                  ? rgbColor!.split(',')[1]
+                  : colorHex != null
+                      ? colorHex!
+                      : '',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

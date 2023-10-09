@@ -1,9 +1,6 @@
 # Description of your result
 Приложение  Colored Box, которое позволяет пользователям смотреть католог доступных цветов и копировать их в буфер обмена.
 
-## More
-For generating models:
-flutter packages pub run build_runner build
 
 ## Demo
 

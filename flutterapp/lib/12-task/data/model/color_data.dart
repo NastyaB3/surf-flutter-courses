@@ -1,15 +1,16 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter/foundation.dart';
-part '../color_data.freezed.dart';
-part '../color_data.g.dart';
+class ColorData {
+  final String name;
+  final String? value;
 
-@freezed
-class ColorData with _$ColorData {
-   factory ColorData({
-    required String name,
-    String? value,
-  }) = _ColorData;
+  ColorData({
+    required this.name,
+    this.value,
+  });
 
-
-   factory ColorData.fromJson(Map<String, Object?> json)=> _$ColorDataFromJson(json);
+  factory ColorData.fromJson(Map<String, Object?> json) {
+    return ColorData(
+      name: json['name'] as String,
+      value: json['value'] as String?,
+    );
+  }
 }

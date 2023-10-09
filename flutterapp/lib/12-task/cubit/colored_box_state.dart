@@ -8,7 +8,7 @@ class ColoredBoxInitial extends ColoredBoxState {}
 class ColoredBoxLoading extends ColoredBoxState {}
 
 class ColoredBoxSuccess extends ColoredBoxState {
-  final ColorsList colorData;
+  final List<ColorData> colorData;
 
   ColoredBoxSuccess(this.colorData);
 }

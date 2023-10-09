@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutterapp/12-task/data/model/colors_list.dart';
+import 'package:flutterapp/12-task/data/model/color_data.dart';
 import 'package:flutterapp/12-task/data/repository/repository_colored_box.dart';
 import 'package:meta/meta.dart';
 
@@ -15,10 +15,10 @@ class ColoredBoxCubit extends Cubit<ColoredBoxState> {
   Future<void> getColoredBox() async {
     emit(ColoredBoxLoading());
     try {
-      final ColorsList colorData = await _repository.getColors();
-      final filteredColors = colorData.colors.where((color) => color.value != null).toList();
-      final filteredColorData = ColorsList(colors: filteredColors);
-      emit(ColoredBoxSuccess(filteredColorData));
+      final List<ColorData> colorData = await _repository.getColors();
+      final filteredColors =
+          colorData.where((color) => color.value != null).toList();
+      emit(ColoredBoxSuccess(filteredColors));
     } catch (e) {
       emit(
         ColoredBoxError(
