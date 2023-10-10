@@ -17,31 +17,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: Text(
-          'Профиль',
-          style: Theme.of(context).textTheme.labelLarge,
+        title: const Center(
+          child: Text('Профиль'),
         ),
-        actions: [
+        actions: const [
           Padding(
-            padding: const EdgeInsets.only(right: 20.0),
+            padding: EdgeInsets.only(right: 20.0),
             child: Text(
               'Save',
-              style: Theme.of(context).textTheme.titleMedium,
+              // style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
         ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset('assets/images/ellipse_230.png'),
           const SizedBox(
             height: 24,
           ),
-          Text(
+          const Text(
             'Мои награды',
-            style: Theme.of(context).textTheme.titleMedium,
+            // style: Theme.of(context).textTheme.titleMedium,
           ),
           const Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -133,16 +131,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             },
           ),
           const Spacer(),
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {},
+              child: const Text(
+                'Выйти из аккаунта',
               ),
-            ),
-            child: Text(
-              'Выйти из аккаунта',
-              style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
           const SizedBox(
