@@ -1,7 +1,7 @@
 part of 'colored_box_cubit.dart';
 
-@immutable
-abstract class ColoredBoxState {}
+
+sealed class ColoredBoxState {}
 
 class ColoredBoxInitial extends ColoredBoxState {}
 

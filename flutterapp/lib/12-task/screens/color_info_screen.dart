@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterapp/12-task/widget/decoration_container.dart';
 import 'package:flutterapp/12-task/widget/convert_color.dart';
+import 'package:flutterapp/12-task/widget/snackBar_widget.dart';
 
 class ColorInfoScreen extends StatelessWidget {
   final String name;
   final Color colorValue;
   final String colorName;
 
-  const ColorInfoScreen(
-      {super.key,
-      required this.name,
-      required this.colorValue,
-      required this.colorName});
+  const ColorInfoScreen({
+    super.key,
+    required this.name,
+    required this.colorValue,
+    required this.colorName,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -55,59 +57,49 @@ class ColorInfoScreen extends StatelessWidget {
                   DecorationContainer(
                     colorName: 'Hex',
                     colorHex: colorName.replaceAll('#', ''),
-                    onTap: () async {
-                      await Clipboard.setData(ClipboardData(text: colorName))
-                          .then((_) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("Hex скопирован")));
-                      });
+                    onTap: () {
+                      snackBarWidget(
+                        context,
+                        data: colorName,
+                        text: 'Hex скопирован',
+                      );
                     },
                   ),
                   const SizedBox(height: 16),
                   Row(
                     children: [
                       DecorationContainer(
-                        colorName: 'Red',
-                        rgbColor: rgbColor,
-                        onTap: () async {
-                          await Clipboard.setData(ClipboardData(text: colorName))
-                              .then((_) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("Цвет скопирован"),
-                              ),
+                          colorName: 'Red',
+                          rgbColor: rgbColor,
+                          onTap: () {
+                            snackBarWidget(
+                              context,
+                              data: colorName,
+                              text: 'Цвет скопирован',
                             );
-                          });
-                        },
-                      ),
+                          }),
                       const SizedBox(width: 17),
                       DecorationContainer(
                         colorName: 'Green',
                         rgbColor: rgbColor,
-                        onTap: () async {
-                          await Clipboard.setData(ClipboardData(text: colorName))
-                              .then((_) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("Цвет скопирован"),
-                              ),
-                            );
-                          });
+                        onTap: () {
+                          snackBarWidget(
+                            context,
+                            data: colorName,
+                            text: 'Цвет скопирован',
+                          );
                         },
                       ),
                       const SizedBox(width: 17),
                       DecorationContainer(
                         colorName: 'Blue',
                         rgbColor: rgbColor,
-                        onTap: () async {
-                          await Clipboard.setData(ClipboardData(text: colorName))
-                              .then((_) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("Цвет скопирован"),
-                              ),
-                            );
-                          });
+                        onTap: () {
+                          snackBarWidget(
+                            context,
+                            data: colorName,
+                            text: 'Цвет скопирован',
+                          );
                         },
                       ),
                     ],

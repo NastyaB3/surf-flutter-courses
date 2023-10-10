@@ -12,8 +12,10 @@ class ColoredBoxScreen extends StatefulWidget {
 }
 
 class _ColoredBoxScreenState extends State<ColoredBoxScreen> {
+
   @override
   Widget build(BuildContext context) {
+    final TextStyle? labelLarge = Theme.of(context).textTheme.labelLarge;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(130),
@@ -26,10 +28,10 @@ class _ColoredBoxScreenState extends State<ColoredBoxScreen> {
                 const SizedBox(height: 44),
                 Text(
                   'Эксклюзивная палитра',
-                  style: Theme.of(context).textTheme.labelLarge,
+                  style: labelLarge,
                 ),
                 Text('«Colored Box»',
-                    style: Theme.of(context).textTheme.labelLarge),
+                    style: labelLarge),
               ],
             ),
           ),

@@ -12,10 +12,11 @@ class DecorationContainer extends StatelessWidget {
     required this.colorName,
     this.colorHex,
     this.onTap,
-  });
+  }) : assert(rgbColor != null || colorHex != null);
 
   @override
   Widget build(BuildContext context) {
+    final TextStyle? bodyMedium = Theme.of(context).textTheme.bodyMedium;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -34,18 +35,14 @@ class DecorationContainer extends StatelessWidget {
         children: [
           Text(
             colorName,
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: bodyMedium,
           ),
           const SizedBox(width: 16),
           InkWell(
             onTap: onTap,
             child: Text(
-              rgbColor != null
-                  ? rgbColor!.split(',')[1]
-                  : colorHex != null
-                      ? colorHex!
-                      : '',
-              style: Theme.of(context).textTheme.bodyMedium,
+              rgbColor != null ? rgbColor!.split(',')[1] : colorHex!,
+              style: bodyMedium,
             ),
           ),
         ],
