@@ -3,13 +3,25 @@ part of 'theme.dart';
 ThemeData createLightTheme() {
   return ThemeData(
     textTheme: createTextTheme(),
-    scaffoldBackgroundColor: AppColors.white,
+    scaffoldBackgroundColor: AppColors.appBarTitleDark,
+
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.white,
+        backgroundColor: AppColors.blueButtonLightAndDark,
         elevation: 0,
         textStyle: bodyMedium,
+        foregroundColor: AppColors.appBarTitleDark,
+
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.redLightAndDark,
+        elevation: 0,
+        textStyle: bodyMedium,
         side: const BorderSide(
           color: AppColors.redLightAndDark,
         ),
@@ -18,25 +30,36 @@ ThemeData createLightTheme() {
         ),
       ),
     ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: AppColors.backgroundFormLight,
+      suffixIconColor: AppColors.greenLightAndDark,
+      border: InputBorder.none,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: const BorderSide(
+          color: AppColors.backgroundFormLight,
+        ),
+      ),
+      labelStyle: titleMedium.copyWith(
+        color: AppColors.formTextLightAndDark,
+      ),
+    ),
     fontFamily: 'Sf Pro Display',
     useMaterial3: true,
     // extensions: <ThemeExtension<dynamic>>[
     //   ThemeColors.light,
     //
     // ],
-
-    dialogTheme: DialogTheme(
-      backgroundColor: AppColors.white,
-      titleTextStyle: titleMedium.copyWith(
-        // color: AppColors.black,
-        fontSize: 20,
-        fontWeight: FontWeight.w500,
-      ),
-    contentTextStyle: titleMedium,
+    bottomSheetTheme: const BottomSheetThemeData(
+      surfaceTintColor: AppColors.appBarTitleDark,
+    ),
+    radioTheme: RadioThemeData(
+      fillColor: MaterialStateProperty.all(AppColors.greenLightAndDark),
     ),
 
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.appBarTitleDark,
       elevation: 0,
       titleTextStyle: labelLarge.copyWith(
         color: AppColors.appBarTitleLight,

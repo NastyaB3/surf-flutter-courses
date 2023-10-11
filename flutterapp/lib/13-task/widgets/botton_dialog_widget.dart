@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/13-task/theme/theme.dart';
 
 enum SortType {
   system,
@@ -48,7 +49,10 @@ class _BottomDialogWidgetState extends State<BottomDialogWidget> {
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
                   InkWell(
-                    child: const Icon(Icons.close),
+                    child: const Icon(
+                      Icons.close,
+                      color: AppColors.greenLightAndDark,
+                    ),
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -57,31 +61,31 @@ class _BottomDialogWidgetState extends State<BottomDialogWidget> {
               ),
             ),
             RadioListTile(
-              title: Text(
+              title: const Text(
                 'Системная',
-                style: Theme.of(context).textTheme.bodyMedium,
               ),
               value: SortType.system,
               groupValue: sortType,
               onChanged: _onSortTypeChanged,
             ),
             RadioListTile(
-              title: Text(
+              title: const Text(
                 'Светлая',
-                style: Theme.of(context).textTheme.bodyMedium,
               ),
               value: SortType.light,
               groupValue: sortType,
               onChanged: _onSortTypeChanged,
             ),
             RadioListTile(
-              title: Text(
+              title: const Text(
                 'Темная',
-                style: Theme.of(context).textTheme.bodyMedium,
               ),
               value: SortType.dark,
               groupValue: sortType,
               onChanged: _onSortTypeChanged,
+            ),
+            const SizedBox(
+              height: 25,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -94,15 +98,8 @@ class _BottomDialogWidgetState extends State<BottomDialogWidget> {
                       sortType,
                     );
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.onPrimary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: Text(
+                  child: const Text(
                     'Готово',
-                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
               ),

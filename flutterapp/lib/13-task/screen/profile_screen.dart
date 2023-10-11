@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/13-task/screen/botton_dialog_widget.dart';
-import 'package:flutterapp/13-task/screen/textfield_widget.dart';
+import 'package:flutterapp/13-task/widgets/botton_dialog_widget.dart';
+import 'package:flutterapp/13-task/widgets/textfield_widget.dart';
+import 'package:flutterapp/13-task/theme/theme.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -20,12 +21,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: const Center(
           child: Text('Профиль'),
         ),
-        actions: const [
+        actions: [
           Padding(
-            padding: EdgeInsets.only(right: 20.0),
+            padding: const EdgeInsets.only(right: 20.0),
             child: Text(
               'Save',
-              // style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    color: AppColors.greenLightAndDark,
+                  ),
             ),
           ),
         ],
@@ -37,9 +40,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const SizedBox(
             height: 24,
           ),
-          const Text(
+           Text(
             'Мои награды',
-            // style: Theme.of(context).textTheme.titleMedium,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(color: AppColors.formTextLightAndDark),
           ),
           const Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -118,10 +121,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     return BottomDialogWidget(
                       initialSortType: sortType,
                     );
-                    // return filterList.FilterListScreen(
-                    //   products: dataForStudents,
-                    //   initialSortType: sortType,
-                    // );
                   });
               // if (res != null) {
               //   setState(() {
@@ -131,13 +130,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
             },
           ),
           const Spacer(),
-          SizedBox(
+          Container(
             width: double.infinity,
-            child: ElevatedButton(
+            padding: const EdgeInsets.symmetric(horizontal: 21.0),
+            // child: ElevatedButton(
+            //   onPressed: () {},
+            //   child: const Text(
+            //     'Log out',
+            //   ),
+            // ),
+            child: OutlinedButton(
               onPressed: () {},
               child: const Text(
-                'Выйти из аккаунта',
+                'Log out',
               ),
+
             ),
           ),
           const SizedBox(

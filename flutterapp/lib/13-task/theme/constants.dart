@@ -12,8 +12,9 @@ const labelLarge = TextStyle(
   fontSize: 18,
   fontWeight: FontWeight.w700,
 );
+
 abstract class AppColors {
-  static const white = Colors.white;
+  static const scaffoldBackgroundDark = Color(0xFF000000);
 
   static const appBarTitleLight = Color(0xFF222222);
   static const appBarTitleDark = Color(0xFFFFFFFF);
@@ -23,8 +24,7 @@ abstract class AppColors {
 
   static const formTextLightAndDark = Color(0xFF77767B);
 
-
   static const redLightAndDark = Color(0xFFFF392A);
   static const greenLightAndDark = Color(0xFF6DD902);
-
+  static const blueButtonLightAndDark = Color(0xFF5114FF);
 }
