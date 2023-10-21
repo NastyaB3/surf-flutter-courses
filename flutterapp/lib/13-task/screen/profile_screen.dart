@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/13-task/widgets/get_theme.dart';
+import 'package:flutterapp/13-task/utils/extension_build_context.dart';
+import 'package:flutterapp/13-task/utils/images.dart';
+import 'package:flutterapp/13-task/utils/theme_notif.dart';
 import 'package:flutterapp/13-task/widgets/botton_dialog_widget.dart';
+import 'package:flutterapp/13-task/widgets/medal_widget.dart';
 import 'package:flutterapp/13-task/widgets/textfield_widget.dart';
-import 'package:flutterapp/13-task/theme/theme.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -11,10 +16,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  SortType sortType = SortType.system;
-
   @override
   Widget build(BuildContext context) {
+    final TextStyle? titleMedium = Theme.of(context).textTheme.titleMedium;
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
@@ -26,9 +30,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             padding: const EdgeInsets.only(right: 20.0),
             child: Text(
               'Save',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    color: AppColors.greenLightAndDark,
-                  ),
+              style: titleMedium!.copyWith(
+                color: context.colors.saveColor,
+              ),
             ),
           ),
         ],
@@ -36,39 +40,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset('assets/images/ellipse_230.png'),
+          Image.asset(Images.avatar),
           const SizedBox(
             height: 24,
           ),
-           Text(
+          Text(
             'Мои награды',
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(color: AppColors.formTextLightAndDark),
+            style: titleMedium.copyWith(
+              color: context.colors.secondaryTextColor,
+            ),
           ),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '🥇',
-                style: TextStyle(fontSize: 32),
-              ),
-              Text(
-                '🥇',
-                style: TextStyle(fontSize: 32),
-              ),
-              Text(
-                '🥉',
-                style: TextStyle(fontSize: 32),
-              ),
-              Text(
-                '🥈',
-                style: TextStyle(fontSize: 32),
-              ),
-              Text(
-                '🥉',
-                style: TextStyle(fontSize: 32),
-              ),
-            ],
-          ),
+          const MedalWidget(),
           const SizedBox(
             height: 24,
           ),
@@ -109,42 +91,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const SizedBox(
             height: 8,
           ),
-          TextFieldWidget(
-            initialValue: 'Системная',
-            labelText: 'Тема оформления',
-            isAction: true,
-            onTap: () async {
-              final res = await showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (BuildContext context) {
-                    return BottomDialogWidget(
-                      initialSortType: sortType,
-                    );
-                  });
-              // if (res != null) {
-              //   setState(() {
-              //     sortType = res;
-              //   });
-              // }
+          Consumer<ThemeNotifier>(
+            builder: (context, ThemeNotifier themeNotifier, child) {
+              return TextFieldWidget(
+                initialValue: getThemeName(themeNotifier.theme),
+                key: ValueKey(themeNotifier.theme),
+                labelText: 'Тема оформления',
+                isAction: true,
+                onTap: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (BuildContext context) {
+                        return BottomDialogWidget(
+                          initThemeType: themeNotifier.theme,
+                        );
+                      });
+                },
+              );
             },
           ),
           const Spacer(),
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 21.0),
-            // child: ElevatedButton(
-            //   onPressed: () {},
-            //   child: const Text(
-            //     'Log out',
-            //   ),
-            // ),
             child: OutlinedButton(
               onPressed: () {},
               child: const Text(
                 'Log out',
               ),
-
             ),
           ),
           const SizedBox(

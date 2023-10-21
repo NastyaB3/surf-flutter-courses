@@ -1,17 +1,15 @@
 part of 'theme.dart';
 
-ThemeData createLightTheme() {
+ThemeData createLightThemeGreen() {
   return ThemeData(
     textTheme: createTextTheme(),
-    scaffoldBackgroundColor: AppColors.appBarTitleDark,
-
+    scaffoldBackgroundColor: AppColors.white,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.blueButtonLightAndDark,
         elevation: 0,
         textStyle: bodyMedium,
-        foregroundColor: AppColors.appBarTitleDark,
-
+        foregroundColor: AppColors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
         ),
@@ -19,11 +17,11 @@ ThemeData createLightTheme() {
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        foregroundColor: AppColors.redLightAndDark,
+        foregroundColor: AppColors.red,
         elevation: 0,
         textStyle: bodyMedium,
         side: const BorderSide(
-          color: AppColors.redLightAndDark,
+          color: AppColors.red,
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
@@ -32,39 +30,42 @@ ThemeData createLightTheme() {
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: AppColors.backgroundFormLight,
-      suffixIconColor: AppColors.greenLightAndDark,
-      border: InputBorder.none,
+      fillColor: AppColors.backgroundFormLightGreen,
+      suffixIconColor: AppColors.primaryGreenLightAndDark,
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: const BorderSide(
+          color: AppColors.backgroundFormLightGreen,
+        ),
+      ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
         borderSide: const BorderSide(
-          color: AppColors.backgroundFormLight,
+          color: AppColors.backgroundFormLightGreen,
         ),
       ),
       labelStyle: titleMedium.copyWith(
-        color: AppColors.formTextLightAndDark,
+        color: AppColors.secondaryTextGreen,
       ),
     ),
     fontFamily: 'Sf Pro Display',
     useMaterial3: true,
-    // extensions: <ThemeExtension<dynamic>>[
-    //   ThemeColors.light,
-    //
-    // ],
+    extensions: <ThemeExtension<dynamic>>[
+      ThemeColors.light,
+    ],
     bottomSheetTheme: const BottomSheetThemeData(
-      surfaceTintColor: AppColors.appBarTitleDark,
+      backgroundColor: AppColors.white,
     ),
     radioTheme: RadioThemeData(
-      fillColor: MaterialStateProperty.all(AppColors.greenLightAndDark),
+      fillColor: MaterialStateProperty.all(AppColors.primaryGreenLightAndDark),
     ),
-
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.appBarTitleDark,
+      backgroundColor: AppColors.white,
       elevation: 0,
       titleTextStyle: labelLarge.copyWith(
-        color: AppColors.appBarTitleLight,
+        color: AppColors.primaryTextLightGreen,
       ),
-      iconTheme: const IconThemeData(color: AppColors.greenLightAndDark),
+      iconTheme: const IconThemeData(color: AppColors.primaryGreenLightAndDark),
     ),
   );
 }
