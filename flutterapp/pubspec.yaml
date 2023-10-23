@@ -49,6 +49,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/14-task/
 
   fonts:
      - family: Handjet
