@@ -33,6 +33,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   bloc: ^8.1.2
   flutter_bloc: ^8.1.3
+  shared_preferences: ^2.2.2
+  provider: ^6.0.5
 
 
 dev_dependencies:
@@ -51,17 +53,20 @@ flutter:
     - assets/images/
 
   fonts:
-     - family: Handjet
-       fonts:
-         - asset: assets/fonts/Handjet-Regular.ttf
-         - asset: assets/fonts/Handjet-Bold.ttf
-         - asset: assets/fonts/Handjet-ExtraLight.ttf
-         - asset: assets/fonts/Handjet-Thin.ttf
-     - family: Sora
-       fonts:
-         - asset: assets/fonts/sora/Sora-Regular.ttf
-     - family: Ubuntu
-       fonts:
-         - asset: assets/fonts/ubuntu/Ubuntu-Regular.ttf
+    - family: Handjet
+      fonts:
+        - asset: assets/fonts/Handjet-Regular.ttf
+        - asset: assets/fonts/Handjet-Bold.ttf
+        - asset: assets/fonts/Handjet-ExtraLight.ttf
+        - asset: assets/fonts/Handjet-Thin.ttf
+    - family: Sora
+      fonts:
+        - asset: assets/fonts/sora/Sora-Regular.ttf
+    - family: Sf Pro Display
+      fonts:
+        - asset: assets/fonts/sf_pro_display/Sf-Pro-Display-Regural.OTF
+    - family: Ubuntu
+      fonts:
+        - asset: assets/fonts/ubuntu/Ubuntu-Regular.ttf
 
 
