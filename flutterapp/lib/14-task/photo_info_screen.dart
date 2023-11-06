@@ -1,16 +1,17 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/14-task/utils/styles.dart';
 
 class PhotoInfoScreen extends StatefulWidget {
-  final String image;
+  final List<String> images;
   final int index;
-  final int imageCount;
+
 
   const PhotoInfoScreen({
     super.key,
-    required this.image,
+    required this.images,
     required this.index,
-    required this.imageCount,
+
   });
 
   @override
@@ -18,6 +19,33 @@ class PhotoInfoScreen extends StatefulWidget {
 }
 
 class _PhotoInfoScreenState extends State<PhotoInfoScreen> {
+  late int currentPhoto;
+  late final _pageController = PageController(
+    initialPage: widget.index,
+    viewportFraction: 0.8,
+  );
+
+  @override
+  void initState() {
+    currentPhoto = widget.index;
+    _pageController.addListener(_onNumberChanged);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageController
+      ..removeListener(_onNumberChanged)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _onNumberChanged() {
+    setState(() {
+      currentPhoto = _pageController.page!.round();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,11 +63,11 @@ class _PhotoInfoScreenState extends State<PhotoInfoScreen> {
             child: Row(
               children: [
                 Text(
-                  (widget.index + 1).toString(),
+                  (currentPhoto + 1).toString(),
                   style: Styles.countText,
                 ),
                 Text(
-                  '/${widget.imageCount}',
+                  '/${widget.images.length}',
                   style: Styles.imageLengthText,
                 ),
               ],
@@ -50,8 +78,47 @@ class _PhotoInfoScreenState extends State<PhotoInfoScreen> {
         elevation: 0,
       ),
       backgroundColor: Colors.white,
-      body: Center(
-        child: Image.asset(widget.image),
+      body: PageView.builder(
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(15),
+            child: AnimatedScale(
+              duration: const Duration(milliseconds: 300),
+              scale: currentPhoto == index ? 1 : 0.9,
+              child: SizedBox(
+                height: double.infinity,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Positioned.fill(
+                      child: Visibility(
+                        visible: currentPhoto + 1 > index,
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                          child: Container(color: Colors.transparent),
+                        ),
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Hero(
+                          tag: widget.images[index],
+                          child: Image.asset(
+                            widget.images[index],
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+        controller: _pageController,
+        itemCount: widget.images.length,
       ),
     );
   }

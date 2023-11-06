@@ -2,14 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/14-task/photo_info_screen.dart';
 import 'package:flutterapp/14-task/utils/images.dart';
 
-class PostogramScreen extends StatefulWidget {
-  const PostogramScreen({super.key});
-
-  @override
-  State<PostogramScreen> createState() => _PostogramScreenState();
-}
-
-class _PostogramScreenState extends State<PostogramScreen> {
+class PostogramScreen extends StatelessWidget {
   List<String> images = [
     Images.photo_1,
     Images.photo_2,
@@ -54,18 +47,18 @@ class _PostogramScreenState extends State<PostogramScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => PhotoInfoScreen(
-                    image: images[index],
+                    images: images,
                     index: index,
-                    imageCount: images.length,
                   ),
                 ),
               );
             },
-            child: Image.asset(
-              images[index],
-              width: 116,
-              height: 116,
-              fit: BoxFit.cover,
+            child: Hero(
+              tag: images[index],
+              child: Image.asset(
+                images[index],
+                fit: BoxFit.cover,
+              ),
             ),
           );
         },

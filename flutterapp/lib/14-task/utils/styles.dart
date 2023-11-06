@@ -5,6 +5,7 @@ abstract class Styles {
     fontSize: 18,
     fontWeight: FontWeight.w700,
     color: CColors.primary,
+    fontFamily: 'Sf Pro Display',
   );
   static TextStyle imageLengthText = countText.copyWith(
     color: CColors.greyText,
