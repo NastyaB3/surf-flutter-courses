@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/14-task/utils/styles.dart';
+import 'package:flutterapp/14-task/utils/ccolors.dart';
 
 class PhotoInfoScreen extends StatefulWidget {
   final List<String> images;
@@ -64,11 +64,13 @@ class _PhotoInfoScreenState extends State<PhotoInfoScreen> {
               children: [
                 Text(
                   (currentPhoto + 1).toString(),
-                  style: Styles.countText,
+                  style: Theme.of(context).textTheme.titleMedium!,
                 ),
                 Text(
                   '/${widget.images.length}',
-                  style: Styles.imageLengthText,
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    color: CColors.greyText,
+                  ),
                 ),
               ],
             ),

@@ -3,27 +3,7 @@ import 'package:flutterapp/14-task/photo_info_screen.dart';
 import 'package:flutterapp/14-task/utils/images.dart';
 
 class PostogramScreen extends StatelessWidget {
-  List<String> images = [
-    Images.photo_1,
-    Images.photo_2,
-    Images.photo_3,
-    Images.photo_4,
-    Images.photo_5,
-    Images.photo_6,
-    Images.photo_7,
-    Images.photo_8,
-    Images.photo_9,
-    Images.photo_10,
-    Images.photo_11,
-    Images.photo_12,
-    Images.photo_13,
-    Images.photo_14,
-    Images.photo_15,
-    Images.photo_16,
-    Images.photo_17,
-    Images.photo_18,
-    Images.photo_19,
-  ];
+  const PostogramScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +19,7 @@ class PostogramScreen extends StatelessWidget {
           mainAxisSpacing: 5,
           crossAxisSpacing: 3,
         ),
-        itemCount: images.length,
+        itemCount: Images.photos.length,
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
@@ -47,16 +27,16 @@ class PostogramScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => PhotoInfoScreen(
-                    images: images,
+                    images:  Images.photos,
                     index: index,
                   ),
                 ),
               );
             },
             child: Hero(
-              tag: images[index],
+              tag:  Images.photos[index],
               child: Image.asset(
-                images[index],
+                Images.photos[index],
                 fit: BoxFit.cover,
               ),
             ),
