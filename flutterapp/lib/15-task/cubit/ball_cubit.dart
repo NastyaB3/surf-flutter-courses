@@ -12,6 +12,8 @@ class BallCubit extends Cubit<BallState> {
   Future<void> getAnswer() async {
     emit(BallLoading());
     try {
+      Duration duration = const Duration(milliseconds: 300);
+      await Future.delayed(duration);
       final res = await _repository.getResultBall();
       emit(
         BallSuccess(

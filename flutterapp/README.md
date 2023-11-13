@@ -1,9 +1,9 @@
 # Description of your result
-Приложение  Построграмм, которое позволяет пользователям просмотр галереи фотографий, а также детально посмотреть каждую из них 
+Приложение  Магический шар, которое позволяет пользователям задавать вопросы и получать ответ 
 
 
 ## Demo
-![Screenshot](simulator_screenshot_5BA23260-4F40-4901-81CA-5042DF9A5970.png)
-![Screenshot](simulator_screenshot_82FEF916-62EC-4252-9F91-EFB4933594F0.png)
+![Screenshot](Simulator Screen Shot - iPhone 12 - 2023-11-13 at 15.28.04.png)
+![Screenshot](Simulator Screen Shot - iPhone 12 - 2023-11-13 at 15.28.25.png)
 
 
