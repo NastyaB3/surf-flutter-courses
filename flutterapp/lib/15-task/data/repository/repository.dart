@@ -1,10 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:flutterapp/15-task/data/result_model.dart';
 
-final dio = Dio();
-const baseUrl = 'https://eightballapi.com/api';
-
 class BallRepository {
+  final Dio dio;
+  final String baseUrl;
+
+  BallRepository({
+    required this.baseUrl,
+    required this.dio,
+  });
+
   Future<ResultModel> getResultBall() async {
     final response = await dio.get(baseUrl);
     return ResultModel.fromJson(

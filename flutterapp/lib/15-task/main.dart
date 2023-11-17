@@ -1,9 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterapp/15-task/cubit/ball_cubit.dart';
 import 'package:flutterapp/15-task/data/repository/repository.dart';
 import 'package:flutterapp/15-task/screens/ball_screen.dart';
 import 'package:flutterapp/15-task/utils/custom_colors.dart';
+
+final dio = Dio();
+const baseUrl = 'https://eightballapi.com/api';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +21,10 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => BallCubit(context.read<BallRepository>()),
       child: RepositoryProvider(
-        create: (BuildContext context) => BallRepository(),
+        create: (BuildContext context) => BallRepository(
+          dio: dio,
+          baseUrl: baseUrl,
+        ),
         child: BlocProvider(
           create: (context) => BallCubit(context.read<BallRepository>()),
           child: MaterialApp(

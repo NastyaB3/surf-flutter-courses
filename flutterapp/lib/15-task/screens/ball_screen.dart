@@ -4,7 +4,6 @@ import 'package:flutterapp/15-task/cubit/ball_cubit.dart';
 import 'package:flutterapp/15-task/screens/background_widget.dart';
 import 'package:flutterapp/15-task/utils/custom_colors.dart';
 import 'package:flutterapp/15-task/utils/loader.dart';
-import 'package:flutterapp/15-task/utils/styles.dart';
 import 'package:shake/shake.dart';
 import '../utils/images.dart';
 
@@ -98,7 +97,7 @@ class _BallScreenState extends State<BallScreen> with TickerProviderStateMixin {
                         ),
                         Text(
                           'Нажмите на шар \nили потрясите телефон',
-                          style: Styles.text,
+                          style: Theme.of(context).textTheme.titleMedium,
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -109,14 +108,14 @@ class _BallScreenState extends State<BallScreen> with TickerProviderStateMixin {
                       opacity: _animation,
                       child: Text(
                         state.result.reading,
-                        style: Styles.header,
+                        style: Theme.of(context).textTheme.titleLarge,
                         textAlign: TextAlign.center,
                       ),
                     ),
                   ),
                 BallError() => Text(
                     'Error. Try again',
-                    style: Styles.header.copyWith(
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: Colors.red,
                     ),
                   ),
