@@ -1,13 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutterapp/16-task/cubit/set_checkbox_cubit.dart';
-import 'package:flutterapp/16-task/cubit/set_pet_cubit.dart';
 import 'package:flutterapp/16-task/data/form_data.dart';
 import 'package:flutterapp/16-task/widget/button_widget.dart';
 import 'package:flutterapp/16-task/widget/custom_date_picker.dart';
-import 'package:flutterapp/16-task/utils/email_validator.dart';
+import 'package:flutterapp/16-task/utils/validators.dart';
 import 'package:flutterapp/16-task/widget/checkbox_widget.dart';
 import 'package:flutterapp/16-task/widget/icon_widget.dart';
 import 'package:flutterapp/16-task/widget/text_field_widget.dart';
@@ -35,18 +32,15 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  SetPetCubit get _registrationActiveCubit =>
-      BlocProvider.of<SetPetCubit>(context);
-
-  SetCheckboxCubit get _checkboxCubit =>
-      BlocProvider.of<SetCheckboxCubit>(context);
+  final ValueNotifier<Pet> _setPet = ValueNotifier<Pet>(Pet.dog);
+  final ValueNotifier<List<Vaccine>> _checkboxValue =
+      ValueNotifier<List<Vaccine>>([]);
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
   final _controllerName = TextEditingController();
   final _controllerDate = TextEditingController();
   final _controllerWeight = TextEditingController();
   final _controllerEmail = TextEditingController();
-
   final Map<Vaccine, TextEditingController> _controllers = {
     Vaccine.rabies: TextEditingController(),
     Vaccine.covid: TextEditingController(),
@@ -71,8 +65,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: BlocBuilder<SetPetCubit, Pet>(
-            builder: (context, state) {
+          child: ValueListenableBuilder<Pet>(
+            valueListenable: _setPet,
+            builder: (context, value, child) {
               return Form(
                 key: _formKey,
                 child: Column(
@@ -93,7 +88,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             child: CustomIcon(
                               image: getImage(pet),
                               onTap: () {
-                                _registrationActiveCubit.setPet(pet);
+                                _setPet.value = pet;
                                 _controllerName.clear();
                                 _controllerDate.clear();
                                 _controllerWeight.clear();
@@ -102,7 +97,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   controller.clear();
                                 });
                               },
-                              isActive: state == pet,
+                              isActive: value == pet,
                               text: getPet(pet),
                             ),
                           ),
@@ -114,13 +109,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     TextFieldWidget(
                       labelText: 'Имя питомца',
                       controller: _controllerName,
-                      validator: (value) {
-                        if ((_controllerName.text.length < 3 ||
-                            _controllerName.text.length > 20)) {
-                          return 'Укажите имя питомца от 3 до 20 символов';
-                        }
-                        return null;
-                      },
+                      validator: nameValidate,
                     ),
                     const SizedBox(
                       height: 16,
@@ -138,12 +127,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               DateFormat('dd.MM.yyyy').format(pickedDate);
                         }
                       },
-                      validator: (value) {
-                        if (_controllerDate.text.isEmpty) {
-                          return 'Укажите дату дд/мм/гггг';
-                        }
-                        return null;
-                      },
+                      validator: dateValidate,
                     ),
                     const SizedBox(
                       height: 16,
@@ -154,13 +138,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
                       ],
-                      validator: (value) {
-                        if (_controllerWeight.text.isEmpty ||
-                            int.parse(_controllerWeight.text) < 1) {
-                          return 'Укажите вес, больше 0 кг';
-                        }
-                        return null;
-                      },
+                      validator: weightValidate,
                       labelText: 'Вес, кг',
                     ),
                     const SizedBox(
@@ -174,56 +152,56 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     const SizedBox(
                       height: 24,
                     ),
-                    BlocBuilder<SetPetCubit, Pet>(
-                      builder: (context, state) {
-                        if (state != Pet.hamster && state != Pet.parrot) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 16.0),
-                                child: Text(
-                                  'Сделаны прививки от:',
-                                  style: Theme.of(context).textTheme.labelLarge,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 24,
-                              ),
-                              for (final vaccine in Vaccine.values)
-                                BlocBuilder<SetCheckboxCubit, List<Vaccine>>(
-                                  builder: (context, state) {
-                                    return CheckboxWidget(
-                                      text: getCheckboxText(vaccine),
-                                      value: state.contains(vaccine),
-                                      onChanged: (value) {
-                                        _checkboxCubit.setVaccine(vaccine);
-                                      },
-                                      onTapTextField: () async {
-                                        DateTime? pickedDate =
-                                            await customDatePicker(
-                                          context: context,
-                                        );
-                                        if (pickedDate != null) {
-                                          _controllers[vaccine]!.text =
-                                              DateFormat('dd.MM.yyyy')
-                                                  .format(pickedDate);
-                                        }
-                                      },
-                                      controllerTextField:
-                                          _controllers[vaccine],
-                                    );
+                    if (value != Pet.hamster && value != Pet.parrot)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16.0),
+                            child: Text(
+                              'Сделаны прививки от:',
+                              style: Theme.of(context).textTheme.labelLarge,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 24,
+                          ),
+                          for (final vaccine in Vaccine.values)
+                            ValueListenableBuilder<List<Vaccine>>(
+                              valueListenable: _checkboxValue,
+                              builder: (context, state, child) {
+                                return CheckboxWidget(
+                                  text: getCheckboxText(vaccine),
+                                  value: state.contains(vaccine),
+                                  onChanged: (value) {
+                                    if (value!) {
+                                      _checkboxValue.value =
+                                          List.from(state)..add(vaccine);
+                                    } else {
+                                      _checkboxValue.value =
+                                          List.from(state)..remove(vaccine);
+                                    }
                                   },
-                                ),
-                              const SizedBox(
-                                height: 32,
-                              ),
-                            ],
-                          );
-                        }
-                        return Container();
-                      },
-                    ),
+                                  onTapTextField: () async {
+                                    DateTime? pickedDate =
+                                        await customDatePicker(
+                                      context: context,
+                                    );
+                                    if (pickedDate != null) {
+                                      _controllers[vaccine]!.text =
+                                          DateFormat('dd.MM.yyyy')
+                                              .format(pickedDate);
+                                    }
+                                  },
+                                  controllerTextField: _controllers[vaccine],
+                                );
+                              },
+                            ),
+                          const SizedBox(
+                            height: 32,
+                          ),
+                        ],
+                      ),
                     ButtonWidget(
                       onPressed: () {
                         setState(() {
@@ -242,10 +220,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           });
                         });
                         final FormData formData = FormData(
-                          pet: state,
+                          pet: value,
                           dateBirth: _controllerDate.text,
                           email: _controllerEmail.text,
-                          vaccines: _checkboxCubit.state,
+                          vaccines: _checkboxValue.value,
                           name: _controllerName.text,
                           weight: int.parse(
                             _controllerWeight.text,

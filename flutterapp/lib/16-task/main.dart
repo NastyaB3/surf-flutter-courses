@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutterapp/16-task/cubit/set_checkbox_cubit.dart';
-import 'package:flutterapp/16-task/cubit/set_pet_cubit.dart';
 import 'package:flutterapp/16-task/screens/registration_screen.dart';
 import 'package:flutterapp/16-task/utils/custom_theme_data.dart';
 
@@ -14,21 +11,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => SetPetCubit(),
-        ),
-        BlocProvider(
-          create: (context) => SetCheckboxCubit(),
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Validation form',
-        theme: appTheme,
-        home: const RegistrationScreen(),
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Validation form',
+      theme: appTheme,
+      home: const RegistrationScreen(),
     );
   }
 }
